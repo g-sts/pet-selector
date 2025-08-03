@@ -29,3 +29,28 @@ catButton.addEventListener('click', () =>{
       console.error('Erro ao buscar imagem de gato', error);
     });
 });
+
+function fetchDog(){
+  return fetch('https://dog.ceo/api/breeds/image/random')
+  .then(response => response.json())
+  .then(data => data.message)
+}
+
+function fetchCat(){
+  return fetch('https://api.thecatapi.com/v1/images/search')
+  .then(response => response.json())
+  .then(data => data[0].url)
+}
+
+surpriseButton.addEventListener('click', () =>{
+  Promise.any([fetchDog(), fetchCat()])
+    .then(imageUrl => {
+      img.src = imageUrl;
+      img.style.display = 'block';
+      p.style.display = 'none';
+    })
+    .catch(error =>{
+      console.error('Erro ao buscar imagem surpresa', error);
+    });
+});
+
